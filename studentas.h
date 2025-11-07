@@ -1,42 +1,45 @@
 #ifndef STUDENTAS_H
 #define STUDENTAS_H
 
+#include <iostream>
 #include <string>
 #include <vector>
-#include <istream>
+#include "funkcijos.h"
 
-double mediana(std::vector<int> paz); // deklaracija jei norite naudoti iš kitur
+using namespace std;
 
 class Studentas {
 private:
-    std::string vardas_;
-    std::string pavarde_;
-    std::vector<int> paz_;   // namų darbų pažymiai
-    int egz_{0};
+    string vardas_;
+    string pavarde_;
+    vector<int> nd_;
+    int egz_;
+    double gal_vid_;
+    double gal_med_;
 
 public:
-    Studentas() = default;
-    // Konstruktorius, kuris nuskaito studento duomenis iš stream 
-    explicit Studentas(std::istream& is) { readStudent(is); }
+    Studentas() : egz_(0), gal_vid_(0.0), gal_med_(0.0) {}      
+    Studentas(istream& is);                                  
 
-    // Getter'iai (inline)
-    inline std::string vardas() const { return vardas_; }
-    inline std::string pavarde() const { return pavarde_; }
-    inline const std::vector<int>& pazymiai() const { return paz_; }
-    inline int egzaminas() const { return egz_; }
+    // get'eriai
+    inline string vardas() const { return vardas_; }
+    inline string pavarde() const { return pavarde_; }
+    inline double galVid() const { return gal_vid_; }
+    inline double galMed() const { return gal_med_; }
 
-    // Apskaičiuoja galutinį balą pagal duotą agregavimo funkciją (pvz. mediana ar vidurkis)
-    double galutinisVid(double (*agregator)(const std::vector<int>&) = nullptr) const;
-    double galutinisMed() const;
 
-    // Nuskaito vieno studento duomenis iš stream 
-    std::istream& readStudent(std::istream& is);
+    istream& readStudent(istream&);
 
-    void pridetiPazymys(int p) { paz_.push_back(p); }
+    // skaičiavimo metodai
+    double skaiciuotiVidurki() const;
+    double skaiciuotiMediana() const;
+
+    // galutinio balo skaičiavimas
+    void skaiciuotiGalutinius();
+
+    friend bool compare(const Studentas&, const Studentas&);
+    friend bool comparePagalPavarde(const Studentas&, const Studentas&);
+    friend bool comparePagalEgza(const Studentas&, const Studentas&);
 };
 
-bool compare(const Studentas& a, const Studentas& b);                // pagal vardą+pavardę
-bool comparePagalPavarde(const Studentas& a, const Studentas& b);    // pagal pavardę
-bool comparePagalEgz(const Studentas& a, const Studentas& b);        // pagal egzaminą
-
-#endif // STUDENTAS_H
+#endif
