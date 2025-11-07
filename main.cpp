@@ -29,8 +29,29 @@ int main() {
 
         for (int i = 0; i < n; i++) {
             cout << "\n--- Studentas " << i + 1 << " ---\n";
-            Studentas s;
-            s.readStudent(cin);
+            string vardas, pavarde;
+            cout << "Iveskite varda: ";
+            cin >> vardas;
+            cout << "Iveskite pavarde: ";
+            cin >> pavarde;
+
+            int nd_kiek;
+            cout << "Kiek namu darbu pazymiu: ";
+            cin >> nd_kiek;
+
+            vector<int> nd;
+            for (int j = 0; j < nd_kiek; j++) {
+                int p;
+                cout << "Iveskite " << j + 1 << " pazymi: ";
+                cin >> p;
+                nd.push_back(p);
+            }
+
+            int egz;
+            cout << "Iveskite egzamino pazymi: ";
+            cin >> egz;
+
+            Studentas s(vardas, pavarde, nd, egz);
             studentai.push_back(s);
         }
 
@@ -45,19 +66,15 @@ int main() {
 
         vector<Studentas> studentai;
         for (int i = 0; i < kiek; i++) {
-            Studentas s;
             string vard = "Vardas" + to_string(i + 1);
             string pav = "Pavarde" + to_string(i + 1);
-            // Sugeneruojami atsitiktiniai pažymiai ir egzaminas
             vector<int> nd;
-            int nd_kiek = rand() % 5 + 3; // 3–7 pažymiai
-            for (int j = 0; j < nd_kiek; j++) nd.push_back(rand() % 10 + 1);
+            int nd_kiek = rand() % 5 + 3; // 3–7 pazymiai
+            for (int j = 0; j < nd_kiek; j++)
+                nd.push_back(rand() % 10 + 1);
             int egz = rand() % 10 + 1;
 
-            
-            s= Studentas();
-           
-
+            Studentas s(vard, pav, nd, egz);
             studentai.push_back(s);
         }
 
@@ -73,24 +90,22 @@ int main() {
         cout << "\nNuskaitomi duomenys is failo...\n";
         try {
             vector<Studentas> studentai = skaitytiIsFailo<vector<Studentas>>(failo_pav);
-
-            if (studentai.empty()) {
+            if (studentai.empty())
                 cout << "Failas tuscias arba netinkamas formatas.\n";
-            } else {
+            else {
                 cout << "\nNuskaityta " << studentai.size() << " studentu.\n";
                 rodytiRezultatus(studentai);
             }
-        } catch (exception& e) {
+        }
+        catch (exception& e) {
             cerr << "Klaida skaitant faila: " << e.what() << endl;
         }
     }
 
     else if (veiksmas == 4) {
         cout << "Generuojami testiniai failai: 1k, 10k, 100k, 1M, 10M studentu...\n";
-        vector<int> kiekiai = {1000, 10000, 100000, 1000000, 10000000};
-        for (int k : kiekiai) {
-            generuotiFaila(k);
-        }
+        vector<int> kiekiai = { 1000, 10000, 100000, 1000000, 10000000 };
+        for (int k : kiekiai) generuotiFaila(k);
         cout << "Failai sekmingai sugeneruoti.\n";
     }
 
@@ -128,7 +143,6 @@ int main() {
             skirstytiStrategija3(studentai_l, "list", l_split, l_write);
 
         irasytiRezultatusReadme(v_read, v_split, v_write, l_read, l_split, l_write, "rezultatai.txt");
-
         cout << "\nRezultatai issaugoti faile 'rezultatai.txt'.\n";
     }
 
@@ -140,7 +154,6 @@ int main() {
     else {
         cout << "Neteisingas pasirinkimas.\n";
     }
-
 
     return 0;
 }
