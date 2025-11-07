@@ -1,45 +1,39 @@
-#include "studentas.h"
-#include <iomanip>
+#include "Studentas.h"
+#include <sstream>   // <- ČIA būtina
+#include <algorithm>
+#include <numeric>
+using namespace std;
 
-std::istream& Studentas::readStudent(std::istream& is) {
-    std::string line;
-    if (!std::getline(is, line)) return is;
-    std::istringstream ss(line);
-    ss >> vardas_ >> pavarde_;
+Studentas::Studentas(string v, string p, vector<int> nd, int egz)
+    : vardas_(v), pavarde_(p), nd_(nd), egz_(egz) {
+    skaiciuotiGalutinius();
+}
+
+void Studentas::skaiciuotiGalutinius() {
+    if (nd_.empty()) {
+        galutinisVid_ = 0.6 * egz_;
+        galutinisMed_ = 0.6 * egz_;
+        return;
+    }
+    double vid = accumulate(nd_.begin(), nd_.end(), 0.0) / nd_.size();
+    vector<int> copy_nd = nd_;
+    sort(copy_nd.begin(), copy_nd.end());
+    double med = copy_nd[copy_nd.size() / 2];
+    galutinisVid_ = 0.4 * vid + 0.6 * egz_;
+    galutinisMed_ = 0.4 * med + 0.6 * egz_;
+}
+
+istream& Studentas::readStudent(istream& is) {
+    is >> vardas_ >> pavarde_;
     nd_.clear();
     int paz;
-    while (ss >> paz) nd_.push_back(paz);
-
+    while (is >> paz) {
+        nd_.push_back(paz);
+    }
     if (!nd_.empty()) {
         egz_ = nd_.back();
         nd_.pop_back();
     }
-    else {
-        egz_ = 0;
-    }
     skaiciuotiGalutinius();
     return is;
-}
-
-double Studentas::skaiciuotiVidurki() const {
-    if (nd_.empty()) return 0.0;
-    double sum = 0;
-    for (int n : nd_) sum += n;
-    return sum / nd_.size();
-}
-
-double Studentas::skaiciuotiMediana() const {
-    if (nd_.empty()) return 0.0;
-    std::vector<int> temp = nd_;
-    std::sort(temp.begin(), temp.end());
-    int n = static_cast<int>(temp.size());
-    if (n % 2 == 0)
-        return (temp[n / 2 - 1] + temp[n / 2]) / 2.0;
-    else
-        return temp[n / 2];
-}
-
-void Studentas::skaiciuotiGalutinius() {
-    gal_vid_ = skaiciuotiVidurki() * 0.4 + egz_ * 0.6;
-    gal_med_ = skaiciuotiMediana() * 0.4 + egz_ * 0.6;
 }
