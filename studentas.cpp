@@ -6,27 +6,35 @@
 
 using namespace std;
 
-Studentas::Studentas() = default;
+// --- Konstruktoriai ---
+Studentas::Studentas()
+    : vardas_(""), pavarde_(""), nd_(), egz_(0), galutinisVid_(0.0), galutinisMed_(0.0) {
+}
 
-Studentas::Studentas(string v, string p, vector<int> nd, int egz)
-    : vardas_(std::move(v)), pavarde_(std::move(p)), nd_(std::move(nd)), egz_(egz) {
+// Parametrinis konstruktorius
+Studentas::Studentas(const string& v, const string& p, const vector<int>& nd, int egz)
+    : vardas_(v), pavarde_(p), nd_(nd), egz_(egz) {
     skaiciuotiGalutinius();
 }
 
+// Kopijavimo konstruktorius
 Studentas::Studentas(const Studentas& other)
     : vardas_(other.vardas_), pavarde_(other.pavarde_),
     nd_(other.nd_), egz_(other.egz_),
     galutinisVid_(other.galutinisVid_), galutinisMed_(other.galutinisMed_) {
 }
 
-Studentas::Studentas(Studentas&& other) noexcept
+// Move konstruktorius
+Studentas::Studentas(Studentas&& other)
     : vardas_(std::move(other.vardas_)), pavarde_(std::move(other.pavarde_)),
     nd_(std::move(other.nd_)), egz_(other.egz_),
     galutinisVid_(other.galutinisVid_), galutinisMed_(other.galutinisMed_) {
     other.egz_ = 0;
-    other.galutinisVid_ = other.galutinisMed_ = 0.0;
+    other.galutinisVid_ = 0.0;
+    other.galutinisMed_ = 0.0;
 }
 
+// Kopijavimo priskyrimo operatorius
 Studentas& Studentas::operator=(const Studentas& other) {
     if (this != &other) {
         vardas_ = other.vardas_;
@@ -39,7 +47,8 @@ Studentas& Studentas::operator=(const Studentas& other) {
     return *this;
 }
 
-Studentas& Studentas::operator=(Studentas&& other) noexcept {
+// Move priskyrimo operatorius
+Studentas& Studentas::operator=(Studentas&& other) {
     if (this != &other) {
         vardas_ = std::move(other.vardas_);
         pavarde_ = std::move(other.pavarde_);
@@ -48,16 +57,23 @@ Studentas& Studentas::operator=(Studentas&& other) noexcept {
         galutinisVid_ = other.galutinisVid_;
         galutinisMed_ = other.galutinisMed_;
         other.egz_ = 0;
-        other.galutinisVid_ = other.galutinisMed_ = 0.0;
+        other.galutinisVid_ = 0.0;
+        other.galutinisMed_ = 0.0;
     }
     return *this;
 }
 
 // --- Destruktorius ---
 Studentas::~Studentas() {
-    
+    vardas_.clear();
+    pavarde_.clear();
+    nd_.clear();
+    egz_ = 0;
+    galutinisVid_ = 0.0;
+    galutinisMed_ = 0.0;
 }
 
+// --- Pagalbinės funkcijos ---
 void Studentas::skaiciuotiGalutinius() {
     if (nd_.empty()) {
         galutinisVid_ = galutinisMed_ = 0.6 * egz_;
@@ -93,7 +109,6 @@ istream& Studentas::readStudent(istream& is) {
     else {
         egz_ = 0;
     }
-
     skaiciuotiGalutinius();
     return is;
 }
