@@ -11,6 +11,7 @@
 using namespace std;
 using namespace std::chrono;
 
+// Pagrindinė programos funkcija
 int main() {
     srand(time(0));
     int veiksmas;
@@ -63,31 +64,37 @@ int main() {
             vector<double> v_read_times, v_split_times, v_write_times;
             vector<double> l_read_times, l_split_times, l_write_times;
 
+			// Vykdyti tris kartus ir imti vidurki
             for (int kartas = 1; kartas <= 3; kartas++) {
                 auto start_v = high_resolution_clock::now();
                 auto studentai_v = skaitytiIsFailo<vector<Studentas>>(failo_pav);
                 auto end_v = high_resolution_clock::now();
                 double v_read = duration<double>(end_v - start_v).count();
 
+				// Skirstymas ir rasymas vector konteineriu
                 double v_split = 0.0, v_write = 0.0;
                 if (strategija == 1) skirstytiStrategija1<vector<Studentas>>(studentai_v, "vector", v_split, v_write);
                 else if (strategija == 2) skirstytiStrategija2<vector<Studentas>>(studentai_v, "vector", v_split, v_write);
                 else skirstytiStrategija3<vector<Studentas>>(studentai_v, "vector", v_split, v_write);
-
+				
+                // Skirstymas ir rasymas vector konteineriu
                 auto start_l = high_resolution_clock::now();
                 auto studentai_l = skaitytiIsFailo<list<Studentas>>(failo_pav);
                 auto end_l = high_resolution_clock::now();
                 double l_read = duration<double>(end_l - start_l).count();
-
+				
+                // Skirstymas ir rasymas list konteineriu
                 double l_split = 0.0, l_write = 0.0;
                 if (strategija == 1) skirstytiStrategija1<list<Studentas>>(studentai_l, "list", l_split, l_write);
                 else if (strategija == 2) skirstytiStrategija2<list<Studentas>>(studentai_l, "list", l_split, l_write);
                 else skirstytiStrategija3<list<Studentas>>(studentai_l, "list", l_split, l_write);
 
+				// Kaupimas rezultatų
                 v_read_times.push_back(v_read); v_split_times.push_back(v_split); v_write_times.push_back(v_write);
                 l_read_times.push_back(l_read); l_split_times.push_back(l_split); l_write_times.push_back(l_write);
             }
 
+			// Apskaičiuoti vidurkius
             auto avg = [](const vector<double>& v) { return accumulate(v.begin(), v.end(), 0.0) / v.size(); };
 
             double v_read_avg = avg(v_read_times);
@@ -97,6 +104,7 @@ int main() {
             double l_split_avg = avg(l_split_times);
             double l_write_avg = avg(l_write_times);
 
+			// Spausdinti rezultatus
             cout << "\n================ VEIKIMO LAIKAI ================\n";
             cout << left << setw(12) << "Konteineris" << setw(15) << "Nuskaitymas" << setw(15) << "Skirstymas" << setw(15) << "Rasymas\n";
             cout << "-----------------------------------------------\n";
