@@ -18,19 +18,19 @@ private:
 
 public:
     // --- Konstruktoriai ---
-    Studentas(); 
-    Studentas(std::string v, std::string p, std::vector<int> nd, int egz);
+    Studentas();
+    Studentas(const std::string& v, const std::string& p, const std::vector<int>& nd, int egz);
 
-    
+    // --- Kopijavimo ir perkėlimo konstruktoriai bei priskyrimo operatoriai ---
     Studentas(const Studentas& other);
-    Studentas(Studentas&& other) noexcept;
+    Studentas(Studentas&& other);
     Studentas& operator=(const Studentas& other);
-    Studentas& operator=(Studentas&& other) noexcept;
+    Studentas& operator=(Studentas&& other);
 
     // --- Destruktorius ---
-    ~Studentas();  // Aprašytas Studentas.cpp faile
+    ~Studentas();
 
-    // --- Get'ai ---
+    // --- Get'eriai ---
     std::string vardas() const { return vardas_; }
     std::string pavarde() const { return pavarde_; }
     double galutinisVid() const { return galutinisVid_; }
