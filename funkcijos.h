@@ -32,3 +32,4 @@ void irasytiRezultatusReadme(double v_read, double v_split, double v_write,
     double l_read, double l_split, double l_write,
     const std::string& failo_pav);
 
+
