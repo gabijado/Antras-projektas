@@ -7,12 +7,14 @@
 #include <ctime>
 #include <chrono>
 #include <iomanip>
+#include <numeric>
 
 using namespace std;
 using namespace std::chrono;
 
 // Pagrindinė programos funkcija
 int main() {
+	// Zmogus z; užkomentuota, nes Zmogus yra abstrakti klasė
     srand(time(0));
     int veiksmas;
     do {
