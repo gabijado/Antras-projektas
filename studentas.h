@@ -1,44 +1,37 @@
 #ifndef STUDENTAS_H
 #define STUDENTAS_H
 
-#include <string>
+#include "zmogu.h"
 #include <vector>
 #include <iostream>
-#include <numeric>
-#include <algorithm>
 
-class Studentas {
+class Studentas : public Zmogus {
 private:
-    std::string vardas_;
-    std::string pavarde_;
     std::vector<int> nd_;
     int egz_;
     double galutinisVid_;
     double galutinisMed_;
 
 public:
-    // --- Konstruktoriai ---
+    // Konstruktoriai
     Studentas();
     Studentas(const std::string& v, const std::string& p, const std::vector<int>& nd, int egz);
 
-    // --- Rule of Three metodai ---
-    Studentas(const Studentas& other);            // Kopijavimo konstruktorius
-    Studentas& operator=(const Studentas& other); // Kopijavimo priskyrimo operatorius
-    ~Studentas();                                 // Destruktorius
+    // Rule of Three
+    Studentas(const Studentas& other);
+    Studentas& operator=(const Studentas& other);
+    ~Studentas(); // Destruktorius
 
-    // --- Get'eriai ---
-    std::string vardas() const { return vardas_; }
-    std::string pavarde() const { return pavarde_; }
+    // Get'eriai
     double galutinisVid() const { return galutinisVid_; }
     double galutinisMed() const { return galutinisMed_; }
 
-    // --- Pagalbinės funkcijos ---
-    void skaiciuotiGalutinius();
-    std::istream& readStudent(std::istream& is);
+    // Implementuojame virtualią funkciją iš bazinės klasės
+    void skaiciuotiGalutinius() override;
 
-    // --- Įvesties/išvesties operatoriai ---
+    // Įvesties/išvesties operatoriai
     friend std::ostream& operator<<(std::ostream& os, const Studentas& s);
     friend std::istream& operator>>(std::istream& is, Studentas& s);
 };
 
-#endif
+#endif // STUDENTAS_H
