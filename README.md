@@ -308,7 +308,7 @@ pause
 
 ## Pademonstruota, kad realizuota abstrakti aibė Žmogus
 int main() {
-	// Zmogus z; užkomentuota, nes Zmogus yra abstrakti klasė
+    // Zmogus z; užkomentuota, nes Zmogus yra abstrakti klasė
     srand(time(0));
     int veiksmas;
 }
@@ -318,3 +318,22 @@ int main() {
 ![alt text](image.png)
 Ekrano nuotrauka, kurioje matoma klaida, kai 'Zmogus z' nėra užkomentuota.
 
+## Dokumentacija
+
+Ši programa turi pilną klasės ir funkcijų dokumentaciją, sugeneruotą naudojant Doxygen.  
+HTML dokumentacija yra kataloge `docs/html/`. Norėdami peržiūrėti, atidarykite `index.html` naršyklėje.
+
+## Unit Testai
+
+Realizuota naudojant [Google Test](https://github.com/google/googletest) framework'ą.  
+Testuojamos pagrindinės funkcijos:  
+- Studentų galutinių įvertinimų skaičiavimas
+- Duomenų skirstymas į „Vargšiukai“ ir „Kietiakai“
+- Įvesties/išvesties operatoriai >> ir <<  
+
+Norint paleisti testus:
+```bash
+mkdir build && cd build
+cmake ..
+cmake --build .
+ctest
